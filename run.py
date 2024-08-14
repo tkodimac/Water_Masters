@@ -63,7 +63,13 @@ def calculate_surplus_data(sales_row):
     print("Calculating surplus data...\n")
     stock = SHEET.worksheet("stock").get_all_values()
     stock_row = stock [-1]
-    print(stock_row) 
+    
+    surplus_data = []
+    for stock, sales in zip(stock_row,sales_row):
+        surplus = int(stock) - sales
+        surplus_data.append(surplus)
+
+    return surplus_data
 
 def main():
     """
@@ -72,7 +78,9 @@ def main():
     data = get_sales_data()  # This will now return valid sales data
     sales_data = [int(num) for num in data]  # Convert to integers
     update_sales_worksheet(sales_data)  # Call the function to update the worksheet
-    calculate_surplus_data(sales_data)  # Call the surplus calculation function
+    new_surplus_data = calculate_surplus_data(sales_data)  # Call the surplus calculation function
+    print(new_surplus_data)
+
 
 print("Welcome to Water Masters Data Automation")
 main()
