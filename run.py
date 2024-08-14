@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -55,7 +56,23 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data)
     print("Sales worksheet updated successfully.\n")
 
-# Main execution
-data = get_sales_data()  # This will now return valid sales data
-sales_data = [int(num) for num in data]  # Convert to integers
-update_sales_worksheet(sales_data)  # Call the function to update the worksheet
+def calculate_surplus_data(sales_row):
+    """
+    Compare sales with stock and calculate the surplus for each type
+    """
+    print("Calculating surplus data...\n")
+    stock = SHEET.worksheet("stock").get_all_values()
+    stock_row = stock [-1]
+    print(stock_row) 
+
+def main():
+    """
+    Run all program functions
+    """
+    data = get_sales_data()  # This will now return valid sales data
+    sales_data = [int(num) for num in data]  # Convert to integers
+    update_sales_worksheet(sales_data)  # Call the function to update the worksheet
+    calculate_surplus_data(sales_data)  # Call the surplus calculation function
+
+print("Welcome to Water Masters Data Automation")
+main()
